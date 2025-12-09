@@ -6,6 +6,10 @@ class UserCreate(BaseModel):
     email:EmailStr
     phone:str|None=None
 
+# Schema for updating user
+class UserUpdate(BaseModel):
+    name:str|None=None
+    phone:str|None=None
 class UserResponse(BaseModel):
     id:int
     name:str
