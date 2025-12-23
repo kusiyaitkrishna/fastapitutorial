@@ -1,20 +1,27 @@
-import pydantic
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel,EmailStr,Field
+from typing import Optional
 
+# User create schema
 class UserCreate(BaseModel):
     name:str
     email:EmailStr
-    phone:str|None=None
+    password:str
 
-# Schema for updating user
-class UserUpdate(BaseModel):
-    name:str|None=None
-    phone:str|None=None
+# User response schema
 class UserResponse(BaseModel):
     id:int
     name:str
     email:EmailStr
-    phone:str|None=None
+    phone:Optional[str]
+    image_url:Optional[str]
 
     class Config:
-        orm_mode=True
+        orm_mode = True
+    
+# User update schema
+class UserUpdate(BaseModel):
+    name:Optional[str]
+    email:Optional[EmailStr]
+    phone:Optional[str]
+    image_url:Optional[str]
+    password:Optional[str]
