@@ -1,5 +1,6 @@
-from pydantic import BaseModel,EmailStr,Field
+from pydantic import BaseModel,EmailStr,Field,field_serializer
 from typing import Optional
+from config import settings
 
 # User create schema
 class UserCreate(BaseModel):
@@ -14,6 +15,12 @@ class UserResponse(BaseModel):
     email:EmailStr
     phone:Optional[str]
     image_url:Optional[str]
+
+    @field_serializer("image_url")
+    def serialize_image_url(self, image_url: Optional[str]) -> Optional[str]:
+        if not image_url:
+            return None
+        return f"{settings.BASE_URL}{image_url}"
 
     class Config:
         orm_mode = True

@@ -7,6 +7,7 @@ from typing import List, Optional
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 from utils.security import hashed_password
+from utils.storage import save_upload_file
 
 # Function to create a new user
 async def create_user(db:AsyncSession,user:UserCreate)->UserResponse:
@@ -27,3 +28,19 @@ async def create_user(db:AsyncSession,user:UserCreate)->UserResponse:
     
     return new_user
 
+
+# Function to upload user image
+async def upload_image(db:AsyncSession,user_id:int,file):
+    result =await db.execute(select(User).where(User.id==user_id))
+    user=result.scalar_one_or_none()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    # Save image
+    user.image_url=await save_upload_file(file,subdir="users")
+    await db.commit()
+    await db.refresh(user)
+    return user

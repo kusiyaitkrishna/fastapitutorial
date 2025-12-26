@@ -1,11 +1,9 @@
-# utils/media.py
 from pathlib import Path
 from uuid import uuid4
 
 import aiofiles
 from fastapi import UploadFile
-
-from .config import settings
+from config import settings
 
 
 
@@ -40,7 +38,6 @@ async def save_upload_file(
             if not chunk:
                 break
             await out_file.write(chunk)
-
     await file.close()
 
     # 4) Build URL path to store in DB
