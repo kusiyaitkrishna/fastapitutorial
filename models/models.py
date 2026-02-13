@@ -79,7 +79,10 @@ post_tags=Table(
     Column('tag_id',Integer,ForeignKey('tags.id'),primary_key=True)
 )
 
-
+class Student(Base):
+    __tablename__='student'
+    id=Column(Integer,primary_key=True)
+    name=Column(String,nullable=False)
 
 
 
