@@ -30,5 +30,3 @@ class UserUpdate(BaseModel):
     name:Optional[str]
     email:Optional[EmailStr]
     phone:Optional[str]
-    image_url:Optional[str]
-    password:Optional[str]
